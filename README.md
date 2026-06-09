@@ -7,3 +7,8 @@
 * **Instant Notifications:** Real-time user feedback with beautiful success/error toasts using `react-hot-toast`, paired with localized error banners.
 * **Fully Responsive Design:** Seamless user experience across all devices, including mobile, tablets, and desktops.
 * **User-Friendly Info Footer:** Contains an informative guide explaining how the system works and encouraging students to contribute data.
+
+## 🔗 Live Demo
+
+Check out the live deployment of this student portal here:
+👉 **[Live Application Link](https://your-frontend-live-link.com)** *(Replace with your actual link)*
