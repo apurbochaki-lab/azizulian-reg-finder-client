@@ -7,8 +7,7 @@ import Link from 'next/link';
 
 export default function Home() {
   // In formData = name & reg data
-  const [formData, setFormData] = useState({ name: '', regNumber: '' });
-  // console.log(formData)
+  const [formData, setFormData] = useState({ name: '', regNumber: '', phnNumber: '' });
   const [searchReg, setSearchReg] = useState('');
   const [searchResult, setSearchResult] = useState(null);
   const [message, setMessage] = useState(''); // বাংলা এরর মেসেজের জন্য স্টেট
@@ -103,7 +102,7 @@ export default function Home() {
             <Person className="h-5 w-5 absolute left-3 top-3 text-slate-500" />
             <input
               type="text"
-              placeholder="শিক্ষার্থীর নাম"
+              placeholder="আপনার নাম"
               className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-100 placeholder-slate-500 transition-all"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -158,7 +157,7 @@ export default function Home() {
         {searchResult && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center items-center">
 
-            {/* আগের সিট (লাস্ট ৪ ডিজিট ফরম্যাট করা) */}
+            {/* আগের সিট (লাস্ট ৪ ডিজিট এবং ফোন নাম্বার) */}
             <div className="p-4 border border-slate-800 rounded-lg bg-slate-950/40">
               <h3 className="text-sm text-slate-400 font-medium">আগের সিট</h3>
               <p className="font-bold text-slate-200 mt-1">{searchResult.previous ? searchResult.previous.name : 'ডাটা পাওয়া যায়নি'}</p>
@@ -167,16 +166,28 @@ export default function Home() {
                   ? `*******${String(searchResult.previous.regNumber).slice(-4)}`
                   : '—'}
               </p>
+              {searchResult.previous && (
+                <p className="text-xs text-slate-400 mt-1 border-t border-slate-800/60 pt-1">
+                  {searchResult.previous.phnNumber && !isNaN(searchResult.previous.phnNumber)
+                    ? `📞 0${searchResult.previous.phnNumber}`
+                    : '📞 N/A'}
+                </p>
+              )}
             </div>
 
-            {/* সার্চকৃত মেইন সিট (এখানে ফুল নাম্বারই শো করবে) */}
+            {/* সার্চকৃত মেইন সিট (ফুল নাম্বার এবং ফোন নাম্বার) */}
             <div className="p-4 border-2 border-blue-500 rounded-lg bg-blue-950/40 shadow-xl shadow-blue-950/50 transform scale-105 z-10">
               <h3 className="text-sm text-blue-400 font-semibold">সার্চকৃত সিট</h3>
               <p className="font-bold text-lg text-white mt-1">{searchResult.current.name}</p>
               <p className="text-sm font-medium text-blue-300 mt-0.5">{searchResult.current.regNumber}</p>
+              <p className="text-xs text-blue-200 mt-1 border-t border-blue-900/40 pt-1">
+                {searchResult.current.phnNumber && !isNaN(searchResult.current.phnNumber)
+                  ? `📞 0${searchResult.current.phnNumber}`
+                  : '📞 N/A'}
+              </p>
             </div>
 
-            {/* পরের সিট (লাস্ট ৪ ডিজিট ফরম্যাট করা) */}
+            {/* পরের সিট (লাস্ট ৪ ডিজিট এবং ফোন নাম্বার) */}
             <div className="p-4 border border-slate-800 rounded-lg bg-slate-950/40">
               <h3 className="text-sm text-slate-400 font-medium">পরের সিট</h3>
               <p className="font-bold text-slate-200 mt-1">{searchResult.next ? searchResult.next.name : 'ডাটা পাওয়া যায়নি'}</p>
@@ -185,6 +196,13 @@ export default function Home() {
                   ? `*******${String(searchResult.next.regNumber).slice(-4)}`
                   : '—'}
               </p>
+              {searchResult.next && (
+                <p className="text-xs text-slate-400 mt-1 border-t border-slate-800/60 pt-1">
+                  {searchResult.next.phnNumber && !isNaN(searchResult.next.phnNumber)
+                    ? `📞 0${searchResult.next.phnNumber}`
+                    : '📞 N/A'}
+                </p>
+              )}
             </div>
 
           </div>
