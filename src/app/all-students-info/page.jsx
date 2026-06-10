@@ -44,6 +44,18 @@ export default function StudentList() {
                 ডাটাবেজে যুক্ত হওয়া সকল শিক্ষার্থীর তালিকা নিচে দেওয়া হলো। সিকিউরিটির স্বার্থে রেজিস্ট্রেশন নাম্বার আংশিক গোপন রাখা হয়েছে।
             </p>
 
+            <div className='pb-8 flex items-center gap-10'>
+                <h2 className='font-semibold'>মোট শিক্ষার্থী : {students.length}</h2>
+
+                <div className=''>
+                    <Link href="/">
+                        <Button variant='primary' className="rounded-lg font-bold">
+                            Back to Home <ArrowLeft />
+                        </Button>
+                    </Link>
+                </div>
+            </div>
+
             {/* টেবিল কন্টেইনার কার্ড (মেইন থিম কালার) */}
             <div className="w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-xl shadow-2xl p-4 md:p-6">
 
@@ -84,13 +96,16 @@ export default function StudentList() {
                                             <Table.Cell className="py-4 font-mono text-blue-400 tracking-wider font-semibold !bg-slate-950 group-hover:!bg-slate-900/60">
                                                 {student.regNumber
                                                     ? `*******${String(student.regNumber).slice(-4)}`
-                                                    : '—'}
+                                                    : '—'
+                                                }
+
+                                                {/* {student.regNumber} */}
                                             </Table.Cell>
 
                                             {/* মোবাইল নম্বর */}
                                             <Table.Cell className="py-4 pr-4 !bg-slate-950 group-hover:!bg-slate-900/60">
                                                 {student.phnNumber || student.phoneNumber ? (
-                                                    <span className="font-mono text-slate-300">{student.phnNumber || student.phoneNumber}</span>
+                                                    <span className="font-mono text-slate-300">0{student.phnNumber || student.phoneNumber}</span>
                                                 ) : (
                                                     <span className="text-slate-400 italic text-xs bg-slate-900 px-2 py-1 rounded border border-slate-800/80">N/A</span>
                                                 )}
@@ -106,13 +121,7 @@ export default function StudentList() {
 
             </div>
 
-            <div className='py-8'>
-                <Link href="/">
-                    <Button variant='primary' className="rounded-lg font-bold">
-                        Back to Home <ArrowLeft />
-                    </Button>
-                </Link>
-            </div>
+
         </div>
     );
 }

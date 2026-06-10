@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Person, Hashtag, Magnifier, Handset } from '@gravity-ui/icons';
+import { Person, Hashtag, Magnifier, Handset, ArrowRight } from '@gravity-ui/icons';
 import toast from 'react-hot-toast';
 import { Button } from '@heroui/react';
 import Link from 'next/link';
@@ -137,7 +137,26 @@ export default function Home() {
       </div>
 
       {/* সিট খোঁজার CARD */}
-      <div className="mt-10 mb-10 w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-xl shadow-xl p-6">
+      <div className="mt-10 mb-10 w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-xl shadow-xl p-6">
+
+        {/* 📢 জরুরি নোটিশ বক্স */}
+        <div className="mb-6 w-full bg-amber-950/20 border border-amber-600/40 rounded-lg p-4 shadow-lg shadow-amber-900/10">
+          <h3 className="text-md md:text-lg font-bold text-amber-400 mb-2 flex items-center">
+            <span className="mr-2 text-xl">📢</span> জরুরি আপডেট ও নোটিশ!
+          </h3>
+          <div className="text-sm md:text-base text-amber-200/80 space-y-2 leading-relaxed">
+            <p>
+              আমাদের পোর্টালে ইতিমধ্যেই অনেকেই ডেটা সাবমিট করেছেন। সিট প্ল্যানিং আরও নির্ভুল করতে সিস্টেমে আপডেট আনা হয়েছে।
+            </p>
+            <p>
+              এখন সার্চ করলে আপনার সিটের পাশাপাশি <strong>আশেপাশের আরও ৪টি সিট</strong> (আগের ২টি এবং পরের ২টি) দেখতে পাবেন। তবে মনে রাখবেন, ডাটাবেজে যদি আপনার ঠিক আগের বা পরের সিরিয়ালের কারও ডেটা এন্ট্রি করা না থাকে, তবে সেই জায়গাগুলোতে <span className="text-red-400 font-semibold">"ডাটা পাওয়া যায়নি"</span> দেখাবে।
+            </p>
+            <p className="font-semibold text-amber-300 mt-2">
+              💡 সঠিক সিট প্ল্যান দেখতে আপনার বন্ধুদেরও সঠিক রেজিস্ট্রেশন নম্বর দিয়ে ডেটা এন্ট্রি করতে উৎসাহিত করুন।
+            </p>
+          </div>
+        </div>
+
         <h2 className="text-xl text-slate-100 font-semibold mb-4 border-b border-slate-800 pb-2">
           রেজিস্ট্রেশন নম্বর দিয়ে সিট খুঁজুন
         </h2>
@@ -155,16 +174,44 @@ export default function Home() {
         </form>
 
         {searchResult && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center items-center">
+          // ৫ টি কার্ড দেখানোর জন্য grid-cols-1 থেকে md:grid-cols-5 করা হয়েছে
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 text-center items-center">
 
-            {/* আগের সিট (লাস্ট ৪ ডিজিট এবং ফোন নাম্বার) */}
+            {/* ১. তার আগের সিট (Current - 2) */}
+            <div className="p-4 border border-slate-800 rounded-lg bg-slate-950/40">
+              <h3 className="text-xs text-slate-400 font-medium">তার আগের সিট</h3>
+              <p className="font-bold text-slate-200 mt-1">
+                {searchResult.prevTwo ? searchResult.prevTwo.name : 'ডাটা পাওয়া যায়নি'}
+              </p>
+              <p className="text-xs text-slate-500 font-semibold mt-0.5">
+                {searchResult.prevTwo?.regNumber
+                  ? `*******${String(searchResult.prevTwo.regNumber).slice(-4)}`
+                  : '—'
+                }
+
+                {/* {searchResult.prevTwo?.regNumber || '—'} */}
+              </p>
+              {searchResult.prevTwo && (
+                <p className="text-xs text-slate-400 mt-1 border-t border-slate-800/60 pt-1">
+                  {searchResult.prevTwo.phnNumber && !isNaN(searchResult.prevTwo.phnNumber)
+                    ? `📞 0${searchResult.prevTwo.phnNumber}`
+                    : '📞 N/A'}
+                </p>
+              )}
+            </div>
+
+            {/* ২. আগের সিট (Current - 1) */}
             <div className="p-4 border border-slate-800 rounded-lg bg-slate-950/40">
               <h3 className="text-sm text-slate-400 font-medium">আগের সিট</h3>
-              <p className="font-bold text-slate-200 mt-1">{searchResult.previous ? searchResult.previous.name : 'ডাটা পাওয়া যায়নি'}</p>
+              <p className="font-bold text-slate-200 mt-1">
+                {searchResult.previous ? searchResult.previous.name : 'ডাটা পাওয়া যায়নি'}
+              </p>
               <p className="text-xs text-slate-500 font-semibold mt-0.5">
                 {searchResult.previous?.regNumber
                   ? `*******${String(searchResult.previous.regNumber).slice(-4)}`
-                  : '—'}
+                  : '—'
+                }
+                {/* {searchResult.previous?.regNumber || '—'} */}
               </p>
               {searchResult.previous && (
                 <p className="text-xs text-slate-400 mt-1 border-t border-slate-800/60 pt-1">
@@ -175,7 +222,7 @@ export default function Home() {
               )}
             </div>
 
-            {/* সার্চকৃত মেইন সিট (ফুল নাম্বার এবং ফোন নাম্বার) */}
+            {/* ৩. সার্চকৃত মেইন সিট (Current) */}
             <div className="p-4 border-2 border-blue-500 rounded-lg bg-blue-950/40 shadow-xl shadow-blue-950/50 transform scale-105 z-10">
               <h3 className="text-sm text-blue-400 font-semibold">সার্চকৃত সিট</h3>
               <p className="font-bold text-lg text-white mt-1">{searchResult.current.name}</p>
@@ -187,19 +234,46 @@ export default function Home() {
               </p>
             </div>
 
-            {/* পরের সিট (লাস্ট ৪ ডিজিট এবং ফোন নাম্বার) */}
+            {/* ৪. পরের সিট (Current + 1) */}
             <div className="p-4 border border-slate-800 rounded-lg bg-slate-950/40">
               <h3 className="text-sm text-slate-400 font-medium">পরের সিট</h3>
-              <p className="font-bold text-slate-200 mt-1">{searchResult.next ? searchResult.next.name : 'ডাটা পাওয়া যায়নি'}</p>
+              <p className="font-bold text-slate-200 mt-1">
+                {searchResult.next ? searchResult.next.name : 'ডাটা পাওয়া যায়নি'}
+              </p>
               <p className="text-xs text-slate-500 font-semibold mt-0.5">
                 {searchResult.next?.regNumber
                   ? `*******${String(searchResult.next.regNumber).slice(-4)}`
-                  : '—'}
+                  : '—'
+                }
+                {/* {searchResult.next?.regNumber || '—'} */}
               </p>
               {searchResult.next && (
                 <p className="text-xs text-slate-400 mt-1 border-t border-slate-800/60 pt-1">
                   {searchResult.next.phnNumber && !isNaN(searchResult.next.phnNumber)
                     ? `📞 0${searchResult.next.phnNumber}`
+                    : '📞 N/A'}
+                </p>
+              )}
+            </div>
+
+            {/* ৫. তার পরের সিট (Current + 2) */}
+            <div className="p-4 border border-slate-800 rounded-lg bg-slate-950/40">
+              <h3 className="text-xs text-slate-400 font-medium">তার পরের সিট</h3>
+              <p className="font-bold text-slate-200 mt-1">
+                {searchResult.nextTwo ? searchResult.nextTwo.name : 'ডাটা পাওয়া যায়নি'}
+              </p>
+              <p className="text-xs text-slate-500 font-semibold mt-0.5">
+                {searchResult.nextTwo?.regNumber
+                  ? `*******${String(searchResult.nextTwo.regNumber).slice(-4)}`
+                  : '—'
+                }
+
+                {/* {searchResult.nextTwo?.regNumber || '—'} */}
+              </p>
+              {searchResult.nextTwo && (
+                <p className="text-xs text-slate-400 mt-1 border-t border-slate-800/60 pt-1">
+                  {searchResult.nextTwo.phnNumber && !isNaN(searchResult.nextTwo.phnNumber)
+                    ? `📞 0${searchResult.nextTwo.phnNumber}`
                     : '📞 N/A'}
                 </p>
               )}
@@ -212,7 +286,7 @@ export default function Home() {
       <div className='pb-10'>
         <Link href="/all-students-info">
           <Button variant='primary' className="rounded-lg font-bold">
-            All Students Info
+            সব শিক্ষার্থীর ডাটা <ArrowRight />
           </Button>
         </Link>
       </div>
