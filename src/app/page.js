@@ -191,9 +191,9 @@ export default function Home() {
         )}
       </div>
 
-      <div>
+      <div className='pb-10'>
         <Link href="/all-students-info">
-          <Button variant='primary' className="rounded-lg">
+          <Button variant='primary' className="rounded-lg font-bold">
             All Students Info
           </Button>
         </Link>

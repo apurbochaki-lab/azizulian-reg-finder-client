@@ -1,8 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Table } from "@heroui/react";
-import { CircleInfo } from '@gravity-ui/icons';
+import { Button, Table } from "@heroui/react";
+import { ArrowLeft, CircleInfo } from '@gravity-ui/icons';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function StudentList() {
     const [students, setStudents] = useState([]);
@@ -13,7 +14,7 @@ export default function StudentList() {
         const fetchStudents = async () => {
             try {
                 const serverUrl = process.env.NEXT_PUBLIC_SERVER || 'http://localhost:5000';
-                const res = await fetch(`${serverUrl}/api/students`);
+                const res = await fetch(`${serverUrl}/api/data/students/info`);
                 const data = await res.json();
 
                 if (res.ok) {
@@ -103,6 +104,14 @@ export default function StudentList() {
                     </Table>
                 )}
 
+            </div>
+
+            <div className='py-8'>
+                <Link href="/">
+                    <Button variant='primary' className="rounded-lg font-bold">
+                        Back to Home <ArrowLeft />
+                    </Button>
+                </Link>
             </div>
         </div>
     );
