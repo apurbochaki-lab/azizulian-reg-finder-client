@@ -4,6 +4,7 @@ import { Person, Hashtag, Magnifier, Handset, ArrowRight } from '@gravity-ui/ico
 import toast from 'react-hot-toast';
 import { Button } from '@heroui/react';
 import Link from 'next/link';
+import SuccessTestimonials from '@/components/SuccessTestimonials';
 
 export default function Home() {
   // In formData = name & reg data
@@ -80,10 +81,24 @@ export default function Home() {
   return (
     <div className="min-h-[90vh] bg-slate-950 p-4 md:p-8 flex flex-col items-center text-slate-100">
 
-      {/* হেডার টেক্সট এখন ডার্ক থিমে আরও উজ্জ্বল ও ক্লিয়ার */}
-      <h1 className="text-3xl pb-5 font-bold text-green-400 mb-8 text-center tracking-wide">
-        Govt. Azizul Haque Student Portal
-      </h1>
+      {/* 🎓 প্রিমিয়াম ও আই-ক্যাচি হেডার সেকশন */}
+      <div className="w-full max-w-4xl text-center mb-10 mt-6 flex flex-col items-center">
+        {/* একটি ছোট সুন্দর লাইভ ব্যাজ */}
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs md:text-sm font-semibold mb-5 backdrop-blur-sm">
+          <span className="w-2 h-2 rounded-full bg-green-400 animate-ping"></span>
+          ইনকোর্স এক্সাম পোর্টাল
+        </div>
+
+        {/* মেইন হাইলাইটেড বাংলা হেডিং (ফিক্সড স্পেসিং ও লাইন হাইটসহ) */}
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-wide bg-gradient-to-r from-green-400 via-emerald-400 to-green-500 bg-clip-text text-transparent pt-1 pb-3 leading-normal md:leading-[1.3] drop-shadow-[0_2px_10px_rgba(74,222,128,0.15)]">
+          সরকারি আজিজুল হক স্টুডেন্ট পোর্টাল
+        </h1>
+
+        {/* সাবটাইটেল নোটিশ */}
+        <p className="mt-4 text-sm md:text-base text-slate-400 max-w-xl mx-auto font-medium leading-relaxed px-4">
+          এই সাইটটি বর্তমানে <span className="text-blue-400 font-semibold border-b border-blue-500/30 pb-0.5">শুধুমাত্র ডিগ্রী ১ম বর্ষের</span> ইনকোর্স পরীক্ষার সিট খুঁজে বের করার জন্য।
+        </p>
+      </div>
 
       {/* ডার্ক থিমের সাথে ম্যাচিং করা বাংলা এরর ব্যানার */}
       {message && (
@@ -140,7 +155,7 @@ export default function Home() {
       <div className="mt-10 mb-10 w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-xl shadow-xl p-6">
 
         {/* 📢 জরুরি নোটিশ বক্স */}
-        <div className="mb-6 w-full bg-amber-950/20 border border-amber-600/40 rounded-lg p-4 shadow-lg shadow-amber-900/10">
+        <div className="mb-8 w-full bg-amber-950/20 border border-amber-600/40 rounded-lg p-4 shadow-lg shadow-amber-900/10">
           <h3 className="text-md md:text-lg font-bold text-amber-400 mb-2 flex items-center">
             <span className="mr-2 text-xl">📢</span> জরুরি আপডেট ও নোটিশ!
           </h3>
@@ -283,12 +298,16 @@ export default function Home() {
         )}
       </div>
 
-      <div className='pb-10'>
+      <div className='pb-8'>
         <Link href="/all-students-info">
           <Button variant='primary' className="rounded-lg font-bold">
             সব শিক্ষার্থীর ডাটা <ArrowRight />
           </Button>
         </Link>
+      </div>
+
+      <div className='pb-5'>
+        <SuccessTestimonials />
       </div>
     </div>
   );
