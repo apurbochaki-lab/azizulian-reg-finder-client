@@ -13,9 +13,12 @@ export default function Home() {
   const [searchResult, setSearchResult] = useState(null);
   const [message, setMessage] = useState(''); // বাংলা এরর মেসেজের জন্য স্টেট
 
+  const [loading, setLoading] = useState(false)
+
   // ফর্ম সাবমিট হ্যান্ডলার
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
 
     // Name & reg jodi na thake
     if (!formData.name.trim() || !formData.regNumber) {
@@ -43,6 +46,9 @@ export default function Home() {
     } catch (error) {
       setMessage('নেটওয়ার্ক এরর! সার্ভার চেক করুন।');
       toast.error('Network error!');
+    }
+    finally {
+      setLoading(false)
     }
   };
 
@@ -86,7 +92,7 @@ export default function Home() {
         {/* একটি ছোট সুন্দর লাইভ ব্যাজ */}
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs md:text-sm font-semibold mb-5 backdrop-blur-sm">
           <span className="w-2 h-2 rounded-full bg-green-400 animate-ping"></span>
-          ইনকোর্স এক্সাম পোর্টাল
+          ফাইনাল এক্সাম পোর্টাল
         </div>
 
         {/* মেইন হাইলাইটেড বাংলা হেডিং (ফিক্সড স্পেসিং ও লাইন হাইটসহ) */}
@@ -96,7 +102,7 @@ export default function Home() {
 
         {/* সাবটাইটেল নোটিশ */}
         <p className="mt-4 text-sm md:text-base text-slate-400 max-w-xl mx-auto font-medium leading-relaxed px-4">
-          এই সাইটটি বর্তমানে <span className="text-blue-400 font-semibold border-b border-blue-500/30 pb-0.5">শুধুমাত্র ডিগ্রী ১ম বর্ষের</span> ইনকোর্স পরীক্ষার সিট খুঁজে বের করার জন্য।
+          এই সাইটটি বর্তমানে <span className="text-blue-400 font-semibold border-b border-blue-500/30 pb-0.5">শুধুমাত্র ডিগ্রী ১ম বর্ষের ফাইনাল</span> পরীক্ষার সিট খুঁজে বের করার জন্য।
         </p>
       </div>
 
@@ -144,8 +150,13 @@ export default function Home() {
               onChange={(e) => setFormData({ ...formData, phnNumber: e.target.value })}
             />
           </div>
-          <Button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500 font-medium transition-colors shadow-lg shadow-blue-900/20">
-            সাবমিট করুন
+
+          <Button
+            type="submit"
+            isDisabled={loading}
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500 font-medium transition-colors shadow-lg shadow-blue-900/20"
+          >
+            {loading ? "অনুগ্রহ করে অপেক্ষা করুন" : "সাবমিট করুন"}
           </Button>
 
         </form>
