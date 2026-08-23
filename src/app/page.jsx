@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Person, Hashtag, Magnifier, Handset, ArrowRight } from '@gravity-ui/icons';
 import toast from 'react-hot-toast';
-import { Button } from '@heroui/react';
+import { Button, Spinner } from '@heroui/react';
 import Link from 'next/link';
 import SuccessTestimonials from '@/components/SuccessTestimonials';
 
@@ -14,11 +14,12 @@ export default function Home() {
   const [message, setMessage] = useState(''); // বাংলা এরর মেসেজের জন্য স্টেট
 
   const [loading, setLoading] = useState(false)
+  const serverUrl = process.env.NEXT_PUBLIC_SERVER || "http://localhost:5000"
+
 
   // ফর্ম সাবমিট হ্যান্ডলার
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
 
     // Name & reg jodi na thake
     if (!formData.name.trim() || !formData.regNumber) {
@@ -27,8 +28,18 @@ export default function Home() {
       return;
     }
 
+    // ২. নামের মধ্যে ইমোজি আছে কিনা চেক
+    const emojiRegex = /(\p{Extended_Pictographic}|\p{Emoji_Component})/u;
+
+    if (emojiRegex.test(formData.name)) {
+      setMessage("নামে কোনো ইমোজি ব্যবহার করা যাবে না!");
+      return;
+    }
+
+    setLoading(true)
+
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/students`, {
+      const res = await fetch(`${serverUrl}/api/students`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -37,7 +48,7 @@ export default function Home() {
 
       if (res.ok) {
         setMessage('');
-        toast.success('Registered successfully!');
+        toast.success('সফলভাবে ডাটাবেজে সংরক্ষণ হয়েছে!');
         setFormData({ name: '', regNumber: '', phnNumber: '' }); // ফর্ম ক্লিয়ার করা
       } else {
         setMessage(data.error || 'রেজিস্ট্রেশন ব্যর্থ হয়েছে।');
@@ -156,7 +167,12 @@ export default function Home() {
             isDisabled={loading}
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500 font-medium transition-colors shadow-lg shadow-blue-900/20"
           >
-            {loading ? "অনুগ্রহ করে অপেক্ষা করুন" : "সাবমিট করুন"}
+            {loading ? (
+              <>
+                <span>অনুগ্রহ করে অপেক্ষা করুন</span>
+                <Spinner size='sm' color='white' />
+              </>
+            ) : "সাবমিট করুন"}
           </Button>
 
         </form>
