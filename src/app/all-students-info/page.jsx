@@ -77,7 +77,7 @@ export default function StudentList() {
                                 <Table.Header className="!bg-slate-900 border-b border-slate-800 text-slate-300">
                                     <Table.Column isRowHeader className="text-slate-300 font-semibold text-sm py-3.5 pl-4 !bg-slate-900">Student Name</Table.Column>
                                     <Table.Column className="text-slate-300 font-semibold text-sm py-3.5 !bg-slate-900">Registration Number</Table.Column>
-                                    <Table.Column className="text-slate-300 font-semibold text-sm py-3.5 pr-4 !bg-slate-900">Mobile Number</Table.Column>
+                                    {/* <Table.Column className="text-slate-300 font-semibold text-sm py-3.5 pr-4 !bg-slate-900">Mobile Number</Table.Column> */}
                                 </Table.Header>
 
                                 {/* টেবিল বডি (ফোর্সড ডার্ক ব্যাকগ্রাউন্ড) */}
@@ -94,22 +94,22 @@ export default function StudentList() {
 
                                             {/* রেজিস্ট্রেশন নম্বর */}
                                             <Table.Cell className="py-4 font-mono text-blue-400 tracking-wider font-semibold !bg-slate-950 group-hover:!bg-slate-900/60">
-                                                {student.regNumber
+                                                {/* {student.regNumber
                                                     ? `*******${String(student.regNumber).slice(-4)}`
                                                     : '—'
-                                                }
+                                                } */}
 
-                                                {/* {student.regNumber} */}
+                                                {student.regNumber}
                                             </Table.Cell>
 
                                             {/* মোবাইল নম্বর */}
-                                            <Table.Cell className="py-4 pr-4 !bg-slate-950 group-hover:!bg-slate-900/60">
+                                            {/* <Table.Cell className="py-4 pr-4 !bg-slate-950 group-hover:!bg-slate-900/60">
                                                 {student.phnNumber || student.phoneNumber ? (
                                                     <span className="font-mono text-slate-300">0{student.phnNumber || student.phoneNumber}</span>
                                                 ) : (
                                                     <span className="text-slate-400 italic text-xs bg-slate-900 px-2 py-1 rounded border border-slate-800/80">N/A</span>
                                                 )}
-                                            </Table.Cell>
+                                            </Table.Cell> */}
                                         </Table.Row>
                                     ))}
                                 </Table.Body>
