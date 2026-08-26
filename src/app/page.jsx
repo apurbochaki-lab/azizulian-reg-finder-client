@@ -32,7 +32,7 @@ export default function Home() {
     const emojiRegex = /(\p{Extended_Pictographic}|\p{Emoji_Component})/u;
 
     if (emojiRegex.test(formData.name)) {
-      setMessage("নামে কোনো ইমোজি ব্যবহার করা যাবে না!");
+      setMessage("নামে কোনো ইমোজি/নম্বর ব্যবহার করা যাবে না!");
       return;
     }
 
@@ -47,7 +47,7 @@ export default function Home() {
       const data = await res.json();
 
       if (res.ok) {
-        setMessage('');
+        setMessage('আপনার ডাটা সফলভাবে সাবমিট হয়েছে');
         toast.success('সফলভাবে ডাটাবেজে সংরক্ষণ হয়েছে!');
         setFormData({ name: '', regNumber: '', phnNumber: '' }); // ফর্ম ক্লিয়ার করা
       } else {
@@ -119,7 +119,11 @@ export default function Home() {
 
       {/* ডার্ক থিমের সাথে ম্যাচিং করা বাংলা এরর ব্যানার */}
       {message && (
-        <div className="mb-6 w-full max-w-2xl rounded-lg bg-red-950/40 border border-red-900/60 p-3 text-red-200 font-medium text-center shadow-md">
+        // <div className="mb-6 w-full max-w-2xl rounded-lg bg-red-950/40 border border-red-900/60 text-red-200 p-3 font-medium text-center shadow-md">
+        //   {message}
+        // </div>
+
+        <div className={`mb-6 w-full max-w-2xl rounded-lg border ${message === "আপনার ডাটা সফলভাবে সাবমিট হয়েছে" ? "border-emerald-300 bg-green-950/40 text-green-200" : "bg-red-950/40 border-red-900/60 text-red-200"} p-3 font-medium text-center shadow-md`}>
           {message}
         </div>
       )}
